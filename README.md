@@ -43,7 +43,7 @@ redis.quit();
 ```
 
 ## Options
-- `prefix:String` - redis key prefix. default to `redis`
+- `prefix:String` - redis key prefix. default to `r`
 - `separator:String` - redis key separator. default to `:`
 - `redis:Object` - [redis](https://github.com/NodeRedis/node_redis#rediscreateclient) connections options.
 
@@ -132,13 +132,13 @@ expect(key).to.exist;
 expect(key.split(':')).to.have.length(2);
 
 const key = redis.key('ab');
-expect(key).to.be.equal('paywell:ab');
+expect(key).to.be.equal('r:ab');
 
 const key = redis.key(['users', 'ab']);
-expect(key).to.be.equal('paywell:users:ab');
+expect(key).to.be.equal('r:users:ab');
 
 const key = redis.key('users', 'likes', 'vegetables');
-expect(key).to.be.equal('paywell:users:likes:vegetables');
+expect(key).to.be.equal('r:users:likes:vegetables');
 
 ...
 
