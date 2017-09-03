@@ -1,0 +1,49 @@
+{
+  "name": "redis-clients",
+  "version": "0.1.0",
+  "description": "redis client factories for nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lykmapipo/redis-clients.git"
+  },
+  "keywords": [
+    "lykmapipo",
+    "redis",
+    "factory",
+    "utilities",
+    "client"
+  ],
+  "author": {
+    "name": "lykmapipo",
+    "email": "lallyelias87@gmail.com",
+    "url": "https://github.com/lykmapipo"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lykmapipo/redis-clients/issues"
+  },
+  "homepage": "https://github.com/lykmapipo/redis-clients",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "faker": "^4.1.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-mocha-test": "^0.13.2",
+    "jshint-stylish": "^2.2.1",
+    "mocha": "^3.5.0"
+  },
+  "dependencies": {
+    "exit-hook": "^1.1.1",
+    "lodash": "^4.17.4",
+    "redis": "^2.8.0",
+    "uuid": "^3.1.0"
+  },
+  "engines": {
+    "node": ">= 8.1.4"
+  }
+}
