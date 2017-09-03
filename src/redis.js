@@ -228,6 +228,8 @@ exports.reset = exports.quit = function () {
     _client.quit();
   });
 
+  //TODO is there any memory leaks here?
+  //TODO notify others before reset the clients for better cleanup
   //reset clients
   exports._client = null;
   exports.publisher = null;
@@ -253,8 +255,6 @@ exports.reset = exports.quit = function () {
  */
 exports.clear = function (pattern, done) {
 
-  //TODO clear hash search index
-
   //normalize arguments
   if (pattern && _.isFunction(pattern)) {
     done = pattern;
@@ -276,14 +276,19 @@ exports.clear = function (pattern, done) {
   //ensure client
   exports.init();
 
-  //clear data
+  //clear data in transaction
   exports.client().keys(pattern, function (error, keys) {
+
     //back-off in case there is error
     if (error) {
       done(error);
-    } else {
+    }
+
+    //execute delete using redis multi command
+    else {
+
       //initiate multi to run all commands atomically
-      var _client = exports.multi();
+      const _client = exports.multi();
 
       //queue commands
       _.forEach(keys, function (key) {
@@ -293,5 +298,7 @@ exports.clear = function (pattern, done) {
       //execute commands
       _client.exec(done);
     }
+
   });
+
 };
