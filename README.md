@@ -25,6 +25,16 @@ const redis = require('redis-clients')([options]);
 //obtain normal redis client
 const client = redis.client();
 
+//set data
+client.set('abc:1', 1);
+client.set('abc:2', 2);
+client.set('abc:3', 3);
+
+//count keys based on pattern
+redis.count('abc:*', function(error, count){
+    ...
+});
+
 //obtain pub/sub clients
 const { publisher, subscriber } = redis.pubsub();
 
@@ -170,6 +180,20 @@ Reset current state of redis
 ```js
 const redis = require('redis-clients')();
 redis.reset();
+
+...
+
+```
+
+### `count(pattern:String, done:Function)`
+Count(or obtain size) of keys based on the specified pattern. 
+If no pattern specified all keys will be counted.
+
+```js
+const redis = require('redis-clients')();
+redis.count('abc:*', function(error, count){
+    ...
+});
 
 ...
 

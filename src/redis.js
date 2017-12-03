@@ -203,6 +203,36 @@ exports.key = function (...args) {
   key = key.join(exports.defaults.separator);
 
   return key;
+
+};
+
+
+/**
+ * @function
+ * @name count
+ * @description count the number of keys that match specified pattern
+ * @since 0.2.0
+ * @public
+ * @see {@link https://redis.io/commands/eval}
+ * @see {@link http://maaxiim.blogspot.ru/2012/09/implementing-redis-count-command-in-lua.html}
+ */
+exports.count = exports.size = function (pattern, done) {
+
+  //normalize arguments
+  if (pattern && _.isFunction(pattern)) {
+    done = pattern;
+    pattern = '*'; //count all keys default
+  }
+
+  //get a client
+  const client = exports.client();
+
+  //prepare script
+  const script = ['return #redis.pcall("keys", "', pattern, '")'].join('');
+
+  //count using a lua script
+  client.eval(script, 0, done);
+
 };
 
 

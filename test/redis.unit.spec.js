@@ -240,6 +240,33 @@ describe('redis', function () {
     });
   });
 
+  describe('count', function () {
+
+    before(function (done) {
+      const client = redis.client();
+      client.multi()
+        .set('abc:1', 1)
+        .set('abc:2', 2)
+        .set('abc:3', 3)
+        .exec(done);
+    });
+
+    it(
+      'should be able to count size of keys of specifed pattern pattern',
+      function (done) {
+
+        redis
+          .count('abc:*', function (error, count) {
+            expect(error).to.not.exist;
+            expect(count).to.exist;
+            expect(count).to.be.equal(3);
+            done(error, count);
+          });
+
+      });
+
+  });
+
 
   after(function (done) {
     redis.clear(done);
