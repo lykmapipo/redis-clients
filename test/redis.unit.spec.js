@@ -20,13 +20,13 @@ describe('redis', function () {
     expect(redis).to.exist;
 
     expect(redis.init).to.exist;
-    expect(redis.init).to.be.a.function;
+    expect(redis.init).to.be.a('function');
 
     expect(redis.client).to.exist;
-    expect(redis.client).to.be.a.function;
+    expect(redis.client).to.be.a('function');
 
     expect(redis.pubsub).to.exist;
-    expect(redis.pubsub).to.be.a.function;
+    expect(redis.pubsub).to.be.a('function');
 
     expect(redis._client).to.not.exist;
     expect(redis.publisher).to.not.exist;
@@ -78,7 +78,7 @@ describe('redis', function () {
 
     it('should have default options', function () {
       expect(redis.defaults).to.exist;
-      expect(redis.defaults).to.be.an.Object;
+      expect(redis.defaults).to.be.an('object');
       expect(redis.defaults).to.be.eql({
         prefix: 'r',
         separator: ':',
@@ -94,7 +94,7 @@ describe('redis', function () {
       redis.defaults.prefix = 'q';
 
       expect(redis.defaults).to.exist;
-      expect(redis.defaults).to.be.an.Object;
+      expect(redis.defaults).to.be.an('object');
       expect(redis.defaults).to.be.eql({
         prefix: 'q',
         separator: ':',
@@ -111,7 +111,7 @@ describe('redis', function () {
       redis.defaults.separator = '-';
 
       expect(redis.defaults).to.exist;
-      expect(redis.defaults).to.be.an.Object;
+      expect(redis.defaults).to.be.an('object');
       expect(redis.defaults).to.be.eql({
         prefix: 'r',
         separator: '-',
@@ -133,7 +133,7 @@ describe('redis', function () {
     const multi = redis.multi();
     expect(multi).to.exist;
     expect(multi.exec).to.exist;
-    expect(multi.exec).to.be.a.function;
+    expect(multi.exec).to.be.a('function');
   });
 
   it('should be able to generate a key', function () {

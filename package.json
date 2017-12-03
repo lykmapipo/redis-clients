@@ -1,6 +1,6 @@
 {
   "name": "redis-clients",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "redis client factories for nodejs",
   "main": "index.js",
   "scripts": {
@@ -33,9 +33,9 @@
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-mocha-test": "^0.13.2",
+    "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
-    "mocha": "^3.5.0"
+    "mocha": "^4.0.1"
   },
   "dependencies": {
     "exit-hook": "^1.1.1",
