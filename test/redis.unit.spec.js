@@ -2,6 +2,7 @@
 
 //dependencies
 const path = require('path');
+const _ = require('lodash');
 const expect = require('chai').expect;
 const redis = require(path.join(__dirname, '..'))();
 
@@ -252,7 +253,7 @@ describe('redis', function () {
     });
 
     it(
-      'should be able to count size of keys of specifed pattern pattern',
+      'should be able to count size of keys of specifed pattern',
       function (done) {
 
         redis
@@ -261,6 +262,22 @@ describe('redis', function () {
             expect(count).to.exist;
             expect(count).to.be.equal(3);
             done(error, count);
+          });
+
+      });
+
+    it(
+      'should be able to count size of keys of specifed patterns',
+      function (done) {
+
+        redis
+          .count('abc:*', 'xx:*', function (error, counts) {
+            expect(error).to.not.exist;
+            expect(counts).to.exist;
+            expect(counts).to.have.length(2);
+            expect(_.first(counts)).to.be.equal(3);
+            expect(_.last(counts)).to.be.equal(0);
+            done(error, counts);
           });
 
       });

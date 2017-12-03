@@ -211,27 +211,69 @@ exports.key = function (...args) {
  * @function
  * @name count
  * @description count the number of keys that match specified pattern
+ * @param {String|Array} [patterns] single or collection of patterns
+ * @param {Function} done a callback to invoke on success or failure
  * @since 0.2.0
  * @public
+ * @return {Number|Array} count per specified pattern in that order respectively
  * @see {@link https://redis.io/commands/eval}
  * @see {@link http://maaxiim.blogspot.ru/2012/09/implementing-redis-count-command-in-lua.html}
  */
-exports.count = exports.size = function (pattern, done) {
+exports.count = exports.size = function (...patterns) {
 
-  //normalize arguments
-  if (pattern && _.isFunction(pattern)) {
-    done = pattern;
-    pattern = '*'; //count all keys default
+  //normalize patterns to array
+  patterns = [].concat(...patterns);
+
+  //compact and ensure unique patterns
+  patterns = _.uniq(_.compact(patterns));
+
+  //obtain callback
+  const done = _.last(patterns);
+
+  //drop callback if provided
+  if (_.isFunction(done)) {
+    patterns = _.initial(patterns);
   }
 
-  //get a client
-  const client = exports.client();
+  //ensure patterns to count
+  if (patterns && patterns.length > 0) {
 
-  //prepare script
-  const script = ['return #redis.pcall("keys", "', pattern, '")'].join('');
+    //get a client
+    const client = exports.multi();
 
-  //count using a lua script
-  client.eval(script, 0, done);
+    //count for each pattern
+
+    _.forEach(patterns, function (pattern) {
+
+      //prepare count LUA script per pattern
+      const script =
+        (['return #redis.pcall("keys", "', pattern, '")'].join(''));
+
+      //count using a lua script
+      client.eval(script, 0);
+
+    });
+
+    client.exec(function (error, count) {
+
+      //normalize count
+      if (count) {
+        count = count.length > 1 ? count : _.first(count);
+      }
+
+      done(error, count);
+
+    });
+  }
+
+  //reply with bad request
+  //as no collections specified
+  else {
+    let error = new Error('Missing Count Patterns');
+    error.status = 400;
+    done(error);
+  }
+
 
 };
 

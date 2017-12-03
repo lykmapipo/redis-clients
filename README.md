@@ -35,6 +35,11 @@ redis.count('abc:*', function(error, count){
     ...
 });
 
+//count keys based on pattern
+redis.count('abc:*', 'x:*', function(error, counts){
+    ...
+});
+
 //obtain pub/sub clients
 const { publisher, subscriber } = redis.pubsub();
 
