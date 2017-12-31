@@ -16,8 +16,9 @@
 
 
 //global dependencies
-const redis = require('redis');
+const url = require('url');
 const _ = require('lodash');
+const redis = require('redis');
 const uuid = require('uuid');
 
 
@@ -60,8 +61,33 @@ exports.defaults = _.merge({}, defaults);
  * @public
  */
 exports.createClient = function (options) {
+
   //merge options
   options = _.merge({}, exports.defaults, options);
+
+  //support connection string url
+  if (_.isString(options.redis)) {
+
+    // parse the url
+    const connection = url.parse(options.redis, true /* parse query string */ );
+    if (connection.protocol !== 'redis:') {
+      throw new Error('Invalid Connection String. Require redis: protocol');
+    }
+
+    options.redis = {
+      port: connection.port || 6379,
+      host: connection.hostname,
+      db: (connection.pathname ? connection.pathname.substr(1) : null) ||
+        connection.query.db || 0,
+      // see https://github.com/mranney/node_redis#rediscreateclient
+      options: connection.query
+    };
+
+    if (connection.auth) {
+      options.redis.auth = connection.auth.replace(/.*?:/, '');
+    }
+
+  }
 
   //instantiate a redis client
   const socket = options.redis.socket;
@@ -84,6 +110,7 @@ exports.createClient = function (options) {
   exports._clients = _.compact([].concat(exports._clients).concat(client));
 
   return client;
+
 };
 
 

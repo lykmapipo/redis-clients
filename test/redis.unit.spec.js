@@ -284,6 +284,24 @@ describe('redis', function () {
 
   });
 
+  describe('connetion init', function () {
+
+    before(function () {
+      redis.reset();
+    });
+
+    it('should support redis connection string', function () {
+      const options = { redis: 'redis://localhost:6379' };
+      const client = redis.createClient(options);
+      expect(client).to.exist;
+    });
+
+    after(function () {
+      redis.reset();
+    });
+
+  });
+
 
   after(function (done) {
     redis.clear(done);
