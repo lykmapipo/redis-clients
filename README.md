@@ -60,7 +60,7 @@ redis.quit();
 ## Options
 - `prefix:String` - redis key prefix. default to `r`
 - `separator:String` - redis key separator. default to `:`
-- `redis:Object` - [redis](https://github.com/NodeRedis/node_redis#rediscreateclient) connections options.
+- `redis:Object|String` - [redis](https://github.com/NodeRedis/node_redis#rediscreateclient) connections options or connection string.
 
 To initialize `redis` with custom options use
 
@@ -75,6 +75,14 @@ const redis = require('redis-clients')({
 });
 
 ...
+
+or 
+
+const redis = require('redis-clients')({
+    prefix:'q',
+    separator:'-',
+    redis: 'redis://localhost:6379'
+});
 
 ```
 
