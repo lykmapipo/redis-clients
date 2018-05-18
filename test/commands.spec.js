@@ -2,10 +2,13 @@
 
 /* dependencies */
 const path = require('path');
+const _ = require('lodash');
 const { expect } = require('chai');
 const faker = require('faker');
+
 const redis = require(path.join(__dirname, '..'))();
-const { set, get } = redis.commands;
+const { set, get, hmset, hgetall } = redis.commands;
+
 
 describe('commands', function () {
 
@@ -132,7 +135,7 @@ describe('commands', function () {
     const array = [faker.random.word(), faker.random.word()];
 
     const keyObject = faker.random.uuid();
-    const object = { word: faker.random.word() };
+    const object = _.omit(faker.helpers.createTransaction(), 'date');
 
     before(function (done) {
       set(keyString, string, done);
@@ -189,6 +192,78 @@ describe('commands', function () {
         expect(error).to.not.exist;
         expect(result).to.exist;
         expect(result).to.be.eql(object);
+        done(error, result);
+      });
+
+    });
+
+  });
+
+  describe('hmset', function () {
+
+    it('should be able to save simple object', function (done) {
+      const key = faker.random.uuid();
+      const value = faker.helpers.createTransaction();
+
+      hmset(key, value, function (error, result) {
+        expect(error).to.not.exist;
+        expect(result).to.exist;
+        expect(result).to.be.eql(value);
+        done(error, result);
+      });
+
+    });
+
+    it('should be able to save nested object', function (done) {
+      const key = faker.random.uuid();
+      const value = faker.helpers.createCard();
+
+      hmset(key, value, function (error, result) {
+        expect(error).to.not.exist;
+        expect(result).to.exist;
+        expect(result).to.be.eql(value);
+        done(error, result);
+      });
+
+    });
+
+  });
+
+  describe('hgetall', function () {
+
+    const keySimpleObject = faker.random.uuid();
+    const simpleObject =
+      _.omit(faker.helpers.createTransaction(), 'date');
+
+    const keyNestedObject = faker.random.uuid();
+    const nestedObject =
+      _.omit(faker.helpers.createCard(), 'accountHistory');
+
+    before(function (done) {
+      hmset(keySimpleObject, simpleObject, done);
+    });
+
+    before(function (done) {
+      hmset(keyNestedObject, nestedObject, done);
+    });
+
+    it('should be able to get simple object', function (done) {
+
+      hgetall(keySimpleObject, function (error, result) {
+        expect(error).to.not.exist;
+        expect(result).to.exist;
+        expect(result).to.be.eql(simpleObject);
+        done(error, result);
+      });
+
+    });
+
+    it('should be able to get nested object', function (done) {
+
+      hgetall(keyNestedObject, function (error, result) {
+        expect(error).to.not.exist;
+        expect(result).to.exist;
+        expect(result).to.be.eql(nestedObject);
         done(error, result);
       });
 
