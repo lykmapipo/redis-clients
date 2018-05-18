@@ -176,7 +176,7 @@ exports.pubsub = function () {
  */
 exports.multi = function () {
   //ensure clients
-  const client = exports.init();
+  const client = exports.client();
 
   //obtain client
   const multi = client.multi();
@@ -195,14 +195,13 @@ exports.multi = function () {
  * @public
  */
 exports.info = function (done) {
-  //ensure connection
-  exports.init();
 
   exports.client().info(function (error /*, info*/ ) {
     // jshint camelcase:false
     done(error, exports._client.server_info);
     // jshint camelcase:true
   });
+
 };
 
 
@@ -371,9 +370,6 @@ exports.clear = function (pattern, done) {
     pattern = pattern.join(exports.defaults.separator);
   }
   pattern = [pattern].concat(['*']).join('');
-
-  //ensure client
-  exports.init();
 
   //clear data in transaction
   exports.client().keys(pattern, function (error, keys) {
