@@ -9,6 +9,7 @@ const exit = require('exit-hook');
 
 //local dependencies
 const redis = require(path.join(__dirname, 'src', 'redis'));
+const commands = require(path.join(__dirname, 'src', 'commands'));
 
 
 exports = module.exports = function (options) {
@@ -23,6 +24,9 @@ exports = module.exports = function (options) {
   exit(function () {
     redis.quit();
   });
+
+  //attach command shortcuts
+  redis.commands = commands;
 
   //export factories
   return redis;
