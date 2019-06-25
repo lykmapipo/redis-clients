@@ -30,21 +30,22 @@
   },
   "homepage": "https://github.com/lykmapipo/redis-clients",
   "devDependencies": {
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "faker": "^4.1.0",
-    "grunt": "^1.0.2",
-    "grunt-contrib-jshint": "^1.1.0",
+    "grunt": "^1.0.4",
+    "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
+    "handlebars": "^4.1.2",
     "jshint-stylish": "^2.2.1",
-    "mocha": "^5.1.1"
+    "mocha": "^6.1.4"
   },
   "dependencies": {
-    "exit-hook": "^2.0.0",
-    "flat": "^4.0.0",
-    "lodash": "^4.17.10",
+    "exit-hook": "^2.2.0",
+    "flat": "^4.1.0",
+    "lodash": "^4.17.11",
     "redis": "^2.8.0",
-    "uuid": "^3.2.1"
+    "uuid": "^3.3.2"
   },
   "engines": {
     "node": ">= 8.1.4"
