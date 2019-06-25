@@ -1,6 +1,6 @@
 {
   "name": "redis-clients",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "redis client factories for nodejs",
   "main": "index.js",
   "scripts": {
