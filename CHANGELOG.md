@@ -1,6 +1,3 @@
-#### 0.5.1 (2019-06-25)
+#### 0.1.0 - 2017-09-03
 
-# CHANGELOGS
-
-## 0.1.0 - 2017-09-03
-- Implement client factories
+* Implement client factories
